@@ -987,3 +987,105 @@ bool isJagged(const matrix<M> &mat) {
 
   return false;
 }
+
+bool TryCircuit( matrix *& inc, const int &rows )
+{
+    bool ret = false;
+    int cols = inc->size2;
+    matrix *incCopy  = gsl_matrix_alloc( rows, cols );
+    matrix *incEmpty = gsl_matrix_calloc( rows, cols );
+    gsl_matrix_memcpy( incCopy, inc );
+    int r, c, prevRow, rowTries=0, numVisited=0;
+    string circuitString; 
+
+    for( int i=0; i<rows; i++ ) // TRY EVERY ROW BEFORE PERMUTING AGIAN
+    {
+        r = i;                // FIRST NODE
+        c = 0;
+        numVisited = rowTries = 0;
+        circuitString = (char)(r+65);
+        gsl_matrix_memcpy( incCopy, inc );
+        int origin = i;
+        while( rowTries<=cols )
+        {
+            rowTries++;
+            if( gsl_matrix_get(incCopy,r,c) == 1 ){
+                numVisited++;
+                rowTries = 0;
+                prevRow  = r;
+
+                gsl_matrix_set(incCopy,r,c,0);
+
+                // find matching 1
+                while( gsl_matrix_get(incCopy,r,c) != 1 )
+                    ++r %= rows; // wrap to first row
+
+                if( r == origin && ((numVisited > 1) && (numVisited < (rows+1)) )) // visited origin again before seeing all other nodes
+                    break;
+                else if( prevRow != origin ){
+                    gsl_matrix_set(incCopy,prevRow,c,0);
+                    for( int j=0; j<cols; j++ ){
+                        if( gsl_matrix_get(incCopy,prevRow,j) == 1 ){
+                            for(int row=0; row<rows; row++ ){    // set row and all connecting edges to 0
+                                gsl_matrix_set(incCopy,row,j,0);
+                            }
+                        } 
+                    }
+                }
+                if( prevRow == origin && numVisited == 1 ){ // only for origin
+                    numVisited++;
+                    gsl_matrix_set(incCopy,prevRow,c,0);} // set only visited end of edge to 0
+
+                gsl_matrix_set(incCopy,r,c,0); // set visited end of edge to 0
+                circuitString += " -> ";
+                circuitString += (char)(r+65);
+            }
+            ++c %= cols; // wraps to first col
+        }
+        if( numVisited == rows+1 ){
+            cout << "A Hamiltonian Circuit: " << circuitString << endl;
+            i = rows;
+            return true;}
+    }
+    gsl_matrix_free( incCopy );
+    gsl_matrix_free( incEmpty );
+    return ret;
+}
+
+void SwapCols( matrix *& mat, const int &sz, int lvl )
+{
+    int cols  = mat->size2;
+    int pivot = sz-lvl;
+    double temp[sz];// mat pivot col
+
+    for( int i=0; i<sz; i++ ) // set temp to pivot col of mat
+        temp[i] = gsl_matrix_get( mat,i,pivot );
+
+    // shift cols one by one to the left
+    for( int i=0; i<sz; i++ ){
+        for( int j=pivot; j<cols-1; j++ )
+            gsl_matrix_set( mat,i,j, gsl_matrix_get( mat,i,(j+1)) );
+        gsl_matrix_set( mat,i,cols-1, temp[i] );
+    }
+}
+
+bool HamiltonianCircuit( matrix *& mat, const int &sz, int lvl )
+{
+    bool foundcircuit = false;
+    if( lvl == 1 )
+        foundcircuit = TryCircuit( mat, sz );
+
+    if( !foundcircuit )
+    {
+        for( int i=0; i<lvl; i++ )
+        {
+            if( HamiltonianCircuit( mat, sz, (lvl-1) )){
+                foundcircuit = true;
+                break;
+            }
+            // change matrix to next permutation
+            SwapCols( mat, sz, lvl );
+        }
+    }
+    return foundcircuit;
+}
