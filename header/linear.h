@@ -148,6 +148,10 @@ bool isSquare(const matrix<M> &mat);
 template <class M>
 bool isJagged(const matrix<M> &mat);
 
+bool TryCircuit( matrix *& inc, const int &rows );
+bool HamiltonianCircuit( matrix *& mat, const int &sz, int lvl );
+bool HamiltonianCircuit(const matrix<double> &mat);
+
 template <class V>
 double magnitude(const vector<V> &v) {
   double sum = 0;
@@ -1088,4 +1092,11 @@ bool HamiltonianCircuit( matrix *& mat, const int &sz, int lvl )
         }
     }
     return foundcircuit;
+}
+
+bool HamiltonianCircuit(const matrix<double> &mat) {
+  unsigned long size = mat.size();
+  auto gmat = toGslMatrix(mat);
+  return HamiltonianCircuit(gmat, size, size);
+  gsl_matrix_free(gmat);
 }

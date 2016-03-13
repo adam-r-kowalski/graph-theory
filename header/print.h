@@ -59,14 +59,14 @@ void print(const V &value) {
 template <class V>
 void print(const vector<V> &vec) {
   unsigned long size = vec.size();
-  print("<");
+  print("|");
   for (unsigned long i = 0; i < size; i++) {
     print(vec[i]);
     if (i != size - 1) {
       print(", ");
     }
   }
-  print(">");
+  print("|");
 }
 
 template <class A, class B>
