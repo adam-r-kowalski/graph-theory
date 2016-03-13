@@ -23,5 +23,6 @@ int main(int argc, char *argv[]) {
     ,{1, 2, 3}};
 
   HamiltonianCircuit(a);
+
   return 0;
 }

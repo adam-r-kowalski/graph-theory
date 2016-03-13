@@ -1096,7 +1096,7 @@ bool HamiltonianCircuit( matrix *& mat, const int &sz, int lvl )
 
 bool HamiltonianCircuit(const matrix<double> &mat) {
   unsigned long size = mat.size();
-  auto gmat = toGslMatrix(mat);
+  auto gmat = toGslMatrix(incidince(mat));
   return HamiltonianCircuit(gmat, size, size);
   gsl_matrix_free(gmat);
 }
