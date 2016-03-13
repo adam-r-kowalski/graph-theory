@@ -34,7 +34,7 @@ namespace cli {
     else if (func == "lower") {
       if (args.size() != 2)
         cerr << argumentError << endl;
-      println(lower(getMatrx(args[1])));
+      println(lower(getMatrix(args[1])));
     }
     else {
       cerr << missingFunctionError << endl;
@@ -85,7 +85,42 @@ namespace cli {
   }
 
   matrix<double> getMatrix(const string &input) {
+    matrix<double> ret;
+    vector<double> elements;
+    string line;
+    string word;
+    unsigned long rowLength = 0;
 
+    stringstream linestream(input);
+    do {
+      elements = {};
+
+      getline(linestream, line);
+      istringstream iss(line);
+      while (iss >> word) {
+        double number;
+        stringstream ss(word);
+        ss >> number;
+        if (ss.fail()) {
+          cout << argumentError << endl;
+          return {};
+        }
+
+        elements.push_back(number);
+      }
+
+      if (elements.size() != 0) {
+        if (rowLength == 0)
+          rowLength = elements.size();
+        else if (rowLength != elements.size()) {
+          cout << argumentError << endl;
+          return {};
+        }
+        ret.push_back(elements);
+      }
+    } while (elements.size() != 0);
+
+    return ret;
   }
 }
 

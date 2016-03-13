@@ -148,8 +148,8 @@ bool isSquare(const matrix<M> &mat);
 template <class M>
 bool isJagged(const matrix<M> &mat);
 
-bool TryCircuit( matrix *& inc, const int &rows );
-bool HamiltonianCircuit( matrix *& mat, const int &sz, int lvl );
+bool TryCircuit( gsl_matrix *& inc, const int &rows );
+bool HamiltonianCircuit( gsl_matrix *& mat, const int &sz, int lvl );
 bool HamiltonianCircuit(const matrix<double> &mat);
 
 template <class V>
@@ -992,12 +992,12 @@ bool isJagged(const matrix<M> &mat) {
   return false;
 }
 
-bool TryCircuit( matrix *& inc, const int &rows )
+bool TryCircuit( gsl_matrix *& inc, const int &rows )
 {
     bool ret = false;
     int cols = inc->size2;
-    matrix *incCopy  = gsl_matrix_alloc( rows, cols );
-    matrix *incEmpty = gsl_matrix_calloc( rows, cols );
+    gsl_matrix *incCopy  = gsl_matrix_alloc( rows, cols );
+    gsl_matrix *incEmpty = gsl_matrix_calloc( rows, cols );
     gsl_matrix_memcpy( incCopy, inc );
     int r, c, prevRow, rowTries=0, numVisited=0;
     string circuitString; 
@@ -1056,7 +1056,7 @@ bool TryCircuit( matrix *& inc, const int &rows )
     return ret;
 }
 
-void SwapCols( matrix *& mat, const int &sz, int lvl )
+void SwapCols( gsl_matrix *& mat, const int &sz, int lvl )
 {
     int cols  = mat->size2;
     int pivot = sz-lvl;
@@ -1073,7 +1073,7 @@ void SwapCols( matrix *& mat, const int &sz, int lvl )
     }
 }
 
-bool HamiltonianCircuit( matrix *& mat, const int &sz, int lvl )
+bool HamiltonianCircuit(gsl_matrix *& mat, const int &sz, int lvl )
 {
     bool foundcircuit = false;
     if( lvl == 1 )
@@ -1096,7 +1096,7 @@ bool HamiltonianCircuit( matrix *& mat, const int &sz, int lvl )
 
 bool HamiltonianCircuit(const matrix<double> &mat) {
   unsigned long size = mat.size();
-  auto gmat = toGslMatrix(incidince(mat));
+  auto gmat = toGslMatrix(incidence(mat));
   return HamiltonianCircuit(gmat, size, size);
   gsl_matrix_free(gmat);
 }
