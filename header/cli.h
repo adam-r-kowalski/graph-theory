@@ -12,6 +12,7 @@ namespace cli {
   void parse(const vector<string> &args);
   double getScalar(const string &input);
   vector<double> getVector(const string &input);
+  matrix<double> getMatrix(const string &input);
 
   void parse(const vector<string> &args) {
     string func = args[0];
@@ -33,6 +34,7 @@ namespace cli {
     else if (func == "lower") {
       if (args.size() != 2)
         cerr << argumentError << endl;
+      println(lower(getMatrx(args[1])));
     }
     else {
       cerr << missingFunctionError << endl;
@@ -80,6 +82,10 @@ namespace cli {
       return number;
     }
     return 0;
+  }
+
+  matrix<double> getMatrix(const string &input) {
+
   }
 }
 
