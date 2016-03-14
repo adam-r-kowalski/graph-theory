@@ -9,13 +9,20 @@ namespace cli {
   const string missingFunctionError = "error: no function by that name";
   const string argumentTypeError = "error: wrong type of argument supplied";
 
-  void parse(const vector<string> &args);
+  void parse(int argc, char *argv[]);
   double getScalar(const string &input);
   vector<double> getVector(const string &input);
   matrix<double> getMatrix(const string &input);
   vector<string> splitLines(const string &input);
 
-  void parse(const vector<string> &args) {
+  void parse(int argc, char *argv[]) {
+    vector<string> args;
+    for (int i = 1; i < argc; i++)
+      args.push_back(argv[i]);
+
+    if (args.size() == 0)
+      return;
+
     try {
       string func = args[0];
       if (func == "magnitude") {
