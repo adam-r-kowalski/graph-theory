@@ -42,6 +42,8 @@ void print(const matrix<M> &mat);
 
 void print(const vector<gsl_complex> &vec);
 
+void print(const gsl_complex &complex);
+
 void print(const map<string, vector<double>> &vecs);
 
 void print(const map<string, matrix<double>> &mats);
@@ -103,6 +105,10 @@ void print(const vector<gsl_complex> &vec) {
     << " = " << GSL_REAL(vec[i])
     << " + " << GSL_IMAG(vec[i]) << "i" << endl;
   }
+}
+
+void print(const gsl_complex &complex) {
+  cout << GSL_REAL(complex) << " + " << GSL_IMAG(complex) << "i" << endl;
 }
 
 void print(const map<string, vector<double>> &vecs) {
