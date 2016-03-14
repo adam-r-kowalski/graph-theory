@@ -645,6 +645,9 @@ double determinant(const matrix<M> &mat) {
   if (isJagged(mat))
     throw invalid_argument("Matrix cannot be jagged");
 
+  if (!isSquare(mat))
+    throw invalid_argument("Matrix must be square");
+
   auto m = toGslMatrix(mat);
 
   auto d = determinant(m);
