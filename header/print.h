@@ -61,14 +61,12 @@ void print(const V &value) {
 template <class V>
 void print(const vector<V> &vec) {
   unsigned long size = vec.size();
-  print("|");
   for (unsigned long i = 0; i < size; i++) {
     print(vec[i]);
     if (i != size - 1) {
-      print(", ");
+      print(" ");
     }
   }
-  print("|");
 }
 
 template <class A, class B>
@@ -87,14 +85,12 @@ void print(const matrix<M> &mat) {
 
   for (unsigned long r = 0; r < rows; r++) {
     if (r != 0) { newline(); }
-    print("|");
     for (unsigned long c = 0; c < columns; c++) {
       print(mat[r][c]);
       if (c != columns - 1) {
-        print(", ");
+        print(" ");
       }
     }
-    print("|");
   }
 }
 
