@@ -7,9 +7,13 @@
 void sandbox();
 
 int main(int argc, char *argv[]) {
-  cli::parse(argc, argv);
+  // if you pass command line arguments just use the cli
+  if (argc > 1)
+    cli::parse(argc, argv);
 
-  sandbox();
+  // otherwise run the sandbox
+  else
+    sandbox();
 
   return 0;
 }

@@ -35,7 +35,7 @@ namespace cli {
           cerr << argumentError << endl;
         println(dot(getVector(args[1]), getVector(args[2])));
       }
-      else if (func == "scale") {
+      else if (func == "scaleVector") {
         if (args.size() != 3)
           cerr << argumentError << endl;
         println(scale(getScalar(args[1]), getVector(args[2])));
@@ -106,7 +106,7 @@ namespace cli {
           cerr << argumentError << endl;
         println(transpose<double>(getMatrix(args[1])));
       }
-      else if (func == "adjacency") {
+      else if (func == "adjacencyFromLaplacian") {
         if (args.size() != 2)
           cerr << argumentError << endl;
         println(adjacency(getMatrix(args[1])));
@@ -311,4 +311,3 @@ namespace cli {
     return {};
   }
 }
-
