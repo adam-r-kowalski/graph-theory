@@ -240,12 +240,14 @@ vector<M> column(const size_t &c, const matrix<M> &mat) {
 
 template <class M>
 matrix<M> innerProduct(const vector<M> &a, const matrix<M> &b) {
-  return innerProduct({a}, b);
+  matrix<M> mat = {a};
+  return innerProduct(mat, b);
 }
 
 template <class M>
 matrix<M> innerProduct(const matrix<M> &a, const vector<M> &b) {
-  return innerProduct(a, transpose<M>({b}));
+  matrix<M> mat = {b};
+  return innerProduct(a, transpose(mat));
 }
 
 template <class M>
