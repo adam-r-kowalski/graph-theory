@@ -205,7 +205,7 @@ namespace cli {
       else if (func == "hamiltonianCircuit") {
         if (args.size() != 2)
           cerr << argumentError << endl;
-        println(hamiltonianCircuit(getMatrix(args[1])));
+        hamiltonianCircuit(getMatrix(args[1]));
       }
       else {
         cerr << missingFunctionError << endl;
